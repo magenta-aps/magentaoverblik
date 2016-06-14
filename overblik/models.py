@@ -175,4 +175,3 @@ class Contact(models.Model):
         Company,
         verbose_name=u'Company'
     )
-

@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 
 # Create your views here.
 from django.views.generic import TemplateView
@@ -24,4 +24,3 @@ class LoginView(TemplateView):
             return redirect('overblik:index')
         else:
             raise PermissionDenied()
-
