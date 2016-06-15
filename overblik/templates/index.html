@@ -1,1 +1,71 @@
 {% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h2>Velkommen til Magenta overblik.</h2></div>
+            <div class="panel-body">
+                <p>
+                    Herunder kan du få dig et overblik over Magenta ApS'
+                    forskellige hostingcentre, kunder, sites osv.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><h2>Serverliste</h2></div>
+            <div class="panel-body">
+                <p>Her kunne der stå nogle bevingede ord...</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table table-striped">
+                <thead>
+                    <th>Servernavn</th>
+                    <th>URL</th>
+                    <th>...</th>
+                    <th>...</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Redmine</td>
+                        <td><a href="https://redmine.magenta-aps.dk/">https://redmine.magenta-aps.dk</a></td>
+                    </tr>
+                    <tr>
+                        <td>Magenta hjemmeside</td>
+                        <td><a href="http://magenta-aps.dk/">http://magenta-aps.dk</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><h2>Siteliste</h2></div>
+            <div class="panel-body">
+                <p>...</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table table-striped">
+
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading"><h2>Kundeliste</h2></div>
+            <div class="panel-body">
+                <p>...</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table table-striped">
+
+            </table>
+        </div>
+    </div>
+{% endblock %}
