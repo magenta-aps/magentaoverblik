@@ -107,8 +107,7 @@ class Server(models.Model):
         (PHYSICAL, u'Physical'),
         (VIRTUAL, u'Virtual'),
     )
-    type = models.CharField(
-        max_length=50,
+    type = models.IntegerField(
         choices=TYPE_CHOICES,
         verbose_name=u'Type'
     )
@@ -172,8 +171,7 @@ class Solution(models.Model):
         (MAIL_SERVICE, u'Mailserver'),
         (BOTH, u'Both'),
     )
-    type = models.CharField(
-        max_length=50,
+    type = models.IntegerField(
         choices=TYPE_CHOICES,
         verbose_name=u'Type'
     )

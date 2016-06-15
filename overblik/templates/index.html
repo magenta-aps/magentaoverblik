@@ -14,6 +14,39 @@
     <div class="container">
         <div class="panel panel-default">
             <!-- Default panel contents -->
+            <div class="panel-heading"><h2>Hosting Providers</h2></div>
+            <div class="panel-body">
+                <p>...</p>
+            </div>
+
+            <!-- Table -->
+            <table class="table table-striped">
+                <thead>
+                    <th>Company Name</th>
+                    <th>Company Number (CVR)</th>
+                    <th>Address</th>
+                </thead>
+                <tbody>
+                    {% for provider in hosting_providers %}
+                    <tr>
+                        <td>{{ provider.company.company_name }}</td>
+                        <td>{{ provider.company.company_number }}</td>
+                        <td>
+                            {{ provider.company.registered_address.street_address }}<br>
+                            {{ provider.company.registered_address.postal_code }}
+                            {{ provider.company.registered_address.locality }}<br>
+                            {{ provider.company.registered_address.country }}<br>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+         </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
             <div class="panel-heading"><h2>Servers</h2></div>
             <div class="panel-body">
                 <p>Say something clever here...</p>
@@ -25,6 +58,8 @@
                     <th>Servernavn</th>
                     <th>OS</th>
                     <th>Responsible</th>
+                    <th>Type</th>
+                    <th>Physical Location</th>
                     <th>Description</th>
                     <th>Only ssh-key login</th>
                     <th>Backup</th>
@@ -38,10 +73,28 @@
                         <td>{{ server.name }}</td>
                         <td>{{ server.operating_system }}</td>
                         <td>{{ server.responsible }}</td>
-                        <td>{{ server.description }}</td>
+                        <td>{{ server.get_type_display }}</td>
+                        <td>
+                            {% if server.physical_location %}
+                            {{ server.physical_location }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if server.description %}
+                            {{ server.description }}
+                            {% endif %}
+                        </td>
                         <td>{% if server.ssh_key_login_only %}Ja{% else %}Nej{% endif%}</td>
-                        <td>{{ server.backup }}</td>
-                        <td>{{ server.updates }}</td>
+                        <td>
+                            {% if server.backup %}
+                            {{ server.backup }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if server.updates %}
+                            {{ server.updates }}
+                            {% endif %}
+                        </td>
                         <td>{{ server.hostname }}</td>
                         <td>{{ server.hosting_provider.company.company_name }}</td>
                     </tr>
@@ -75,12 +128,25 @@
             <!-- Table -->
             <table class="table table-striped">
                 <thead>
-                    <th>...</th>
+                    <th>Company Name</th>
+                    <th>Company Number (CVR)</th>
+                    <th>Address</th>
                 </thead>
                 <tbody>
+                    {% for customer in customers %}
+                    <tr>
+                        <td>{{ customer.company.company_name }}</td>
+                        <td>{{ customer.company.company_number }}</td>
+                        <td>
+                            {{ customer.company.registered_address.street_address }}<br>
+                            {{ customer.company.registered_address.postal_code }}
+                            {{ customer.company.registered_address.locality }}<br>
+                            {{ customer.company.registered_address.country }}<br>
+                        </td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
-
-            </table>
+         </table>
         </div>
     </div>
 {% endblock %}
