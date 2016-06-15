@@ -27,6 +27,9 @@ class RegisteredAddress(models.Model):
         verbose_name=u'Country'
     )
 
+    def __unicode__(self):
+        return self.street_address
+
 
 class Company(models.Model):
     """
@@ -46,20 +49,22 @@ class Company(models.Model):
         verbose_name=u'Registered Address'
     )
 
+    def __unicode__(self):
+        return self.company_name
+
+
+# Composition over inheritance #
+# Customer and HostingProvider could be made subclasses of Company but
+# inheritance is evil and I get to decide... Muwahahaha! /gunnar
 
 class Customer(models.Model):
     """
     A company buying our services.
     """
-    company_id = models.ForeignKey(Company, verbose_name=u'Company')
+    company = models.ForeignKey(Company, verbose_name=u'Company')
 
-
-class Platform(models.Model):
-    """
-    A platform e.g. Django, Drupal, Alfresco... etc.
-    """
-    name = models.CharField(max_length=80, verbose_name=u'Designation')
-    description = models.TextField(verbose_name=u'Description')
+    def __unicode__(self):
+        return self.company.company_name
 
 
 class HostingProvider(models.Model):
@@ -67,22 +72,60 @@ class HostingProvider(models.Model):
     A hosting provider. A company providing hosting services i.e. physical or
     virtual servers.
     """
-    company_id = models.ForeignKey(Company, verbose_name=u'Company')
+    company = models.ForeignKey(Company, verbose_name=u'Company')
+
+    def __unicode__(self):
+        return self.company.company_name
+
+
+# Composition over inheritance #
+
+
+class Platform(models.Model):
+    """
+    A platform e.g. Django, Drupal, Alfresco... etc.
+    """
+    name = models.CharField(max_length=80, verbose_name=u'Designation')
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=u'Description'
+    )
+
+    def __unicode__(self):
+        return self.name
 
 
 class Server(models.Model):
     """
     A physical or virtual server.
     """
+    PHYSICAL = 0
+    VIRTUAL = 1
+
+    TYPE_CHOICES = (
+        (PHYSICAL, u'Physical'),
+        (VIRTUAL, u'Virtual'),
+    )
+    type = models.CharField(
+        max_length=50,
+        choices=TYPE_CHOICES,
+        verbose_name=u'Type'
+    )
+    physical_location = models.CharField(
+        null=True,
+        blank=True,
+        max_length=80,
+        verbose_name=u'Physical Location (physical servers)'
+    )
     name = models.CharField(max_length=80, verbose_name=u'Name')
     operating_system = models.CharField(
         max_length=80,
         verbose_name=u'Operating System'
     )
-
     responsible = models.ForeignKey(
         User,
-        verbose_name=u'Ansvarlig'
+        verbose_name=u'Responsible'
     )
     description = models.TextField(
         null=True,
@@ -107,10 +150,13 @@ class Server(models.Model):
         max_length=25,
         verbose_name=u'Hostname'
     )
-    hosting_provider_id = models.ForeignKey(
+    hosting_provider = models.ForeignKey(
         HostingProvider,
-        verbose_name=u'Udbyder'
+        verbose_name=u'Hosting Provider'
     )
+
+    def __unicode__(self):
+        return self.name
 
 
 class Solution(models.Model):
@@ -119,10 +165,12 @@ class Solution(models.Model):
     """
     WEB_SITE = 0
     MAIL_SERVICE = 1
+    BOTH = 2
 
     TYPE_CHOICES = (
         (WEB_SITE, u'Website'),
         (MAIL_SERVICE, u'Mailserver'),
+        (BOTH, u'Both'),
     )
     type = models.CharField(
         max_length=50,
@@ -131,15 +179,22 @@ class Solution(models.Model):
     )
     type_other = models.CharField(
         max_length=50,
-        verbose_name=u'Other',
+        verbose_name=u'Type (Other)',
         null=True,
         blank=True
     )
     name = models.CharField(max_length=80, verbose_name=u'Name')
-    description = models.TextField(verbose_name=u'Description')
-    platform_id = models.ForeignKey(Platform, verbose_name=u'Platform')
-    customer_id = models.ForeignKey(Customer, verbose_name=u'Customer')
-    server_id = models.ForeignKey(Server, verbose_name=u'Server')
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name=u'Description'
+    )
+    platform = models.ForeignKey(Platform, verbose_name=u'Platform')
+    customer = models.ForeignKey(Customer, verbose_name=u'Customer')
+    server = models.ForeignKey(Server, verbose_name=u'Server')
+
+    def __unicode__(self):
+        return self.name
 
 
 class Domain(models.Model):
@@ -148,11 +203,13 @@ class Domain(models.Model):
     """
     url = models.CharField(max_length=80, verbose_name=u'URL')
     ip_address = models.TextField(
-        max_length=15,
         verbose_name=u'IP Address'
     )
-    server_id = models.ForeignKey(Server, verbose_name=u'Server')
+    server = models.ForeignKey(Server, verbose_name=u'Server')
     name = models.CharField(max_length=80, verbose_name=u'Name')
+
+    def __unicode__(self):
+        return self.name
 
 
 class Contact(models.Model):
@@ -168,10 +225,15 @@ class Contact(models.Model):
         verbose_name=u'Email'
     )
     phone = models.CharField(
+        null=True,
+        blank=True,
         max_length=80,
         verbose_name=u'Phone'
     )
-    company_id = models.ForeignKey(
+    company = models.ForeignKey(
         Company,
         verbose_name=u'Company'
     )
+
+    def __unicode__(self):
+        return self.name

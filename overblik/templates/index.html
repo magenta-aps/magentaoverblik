@@ -2,11 +2,11 @@
 {% block content %}
     <div class="container">
         <div class="panel panel-default">
-            <div class="panel-heading"><h2>Velkommen til Magenta overblik.</h2></div>
+            <div class="panel-heading"><h2>Welcome to Magenta overblik.</h2></div>
             <div class="panel-body">
                 <p>
-                    Herunder kan du få dig et overblik over Magenta ApS'
-                    forskellige hostingcentre, kunder, sites osv.
+                    Here, you can get information about Magenta ApS'
+                    different hosting providers, customers, sites etc.
                 </p>
             </div>
         </div>
@@ -14,28 +14,38 @@
     <div class="container">
         <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading"><h2>Serverliste</h2></div>
+            <div class="panel-heading"><h2>Servers</h2></div>
             <div class="panel-body">
-                <p>Her kunne der stå nogle bevingede ord...</p>
+                <p>Say something clever here...</p>
             </div>
 
             <!-- Table -->
             <table class="table table-striped">
                 <thead>
                     <th>Servernavn</th>
-                    <th>URL</th>
-                    <th>...</th>
-                    <th>...</th>
+                    <th>OS</th>
+                    <th>Responsible</th>
+                    <th>Description</th>
+                    <th>Only ssh-key login</th>
+                    <th>Backup</th>
+                    <th>Updates</th>
+                    <th>Hostname</th>
+                    <th>Hosting Provider</th>
                 </thead>
                 <tbody>
+                    {% for server in servers %}
                     <tr>
-                        <td>Redmine</td>
-                        <td><a href="https://redmine.magenta-aps.dk/">https://redmine.magenta-aps.dk</a></td>
+                        <td>{{ server.name }}</td>
+                        <td>{{ server.operating_system }}</td>
+                        <td>{{ server.responsible }}</td>
+                        <td>{{ server.description }}</td>
+                        <td>{% if server.ssh_key_login_only %}Ja{% else %}Nej{% endif%}</td>
+                        <td>{{ server.backup }}</td>
+                        <td>{{ server.updates }}</td>
+                        <td>{{ server.hostname }}</td>
+                        <td>{{ server.hosting_provider.company.company_name }}</td>
                     </tr>
-                    <tr>
-                        <td>Magenta hjemmeside</td>
-                        <td><a href="http://magenta-aps.dk/">http://magenta-aps.dk</a></td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -43,7 +53,7 @@
     <div class="container">
         <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading"><h2>Siteliste</h2></div>
+            <div class="panel-heading"><h2>Sites</h2></div>
             <div class="panel-body">
                 <p>...</p>
             </div>
@@ -57,13 +67,18 @@
     <div class="container">
         <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading"><h2>Kundeliste</h2></div>
+            <div class="panel-heading"><h2>Customers</h2></div>
             <div class="panel-body">
                 <p>...</p>
             </div>
 
             <!-- Table -->
             <table class="table table-striped">
+                <thead>
+                    <th>...</th>
+                </thead>
+                <tbody>
+                </tbody>
 
             </table>
         </div>
