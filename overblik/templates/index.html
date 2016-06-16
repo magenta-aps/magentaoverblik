@@ -25,6 +25,7 @@
                     <th>Company Name</th>
                     <th>Company Number (CVR)</th>
                     <th>Address</th>
+                    <th>Contacts</th>
                 </thead>
                 <tbody>
                     {% for provider in hosting_providers %}
@@ -38,6 +39,15 @@
                             {{ provider.company.registered_address.country }}<br>
 
                         </td>
+                        <td>
+                            {% for contact in provider.company.contact_set.all %}
+                            {{ contact.name }}<br>
+                            <a href="mailto:{{ contact.email }}">{{ contact.email }}</a><br>
+                            {{ contact.phone }}<br>
+                            <br>
+                            {% endfor %}
+                        </td>
+
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -106,9 +116,32 @@
     <div class="container">
         <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading"><h2>Sites</h2></div>
+            <div class="panel-heading"><h2>Solutions</h2></div>
             <div class="panel-body">
-                <p>...</p>
+                <table class="table table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Type (Other)</th>
+                        <th>Description</th>
+                        <th>Platform</th>
+                        <th>Customer</th>
+                        <th>Server</th>
+                    </thead>
+                    <tbody>
+                        {% for solution in solutions %}
+                        <tr>
+                            <td>{{ solution.name }}</td>
+                            <td>{{ solution.get_type_display }}</td>
+                            <td>{{ solution.type_other }}</td>
+                            <td>{{ solution.description }}</td>
+                            <td>{{ solution.platform.name }}</td>
+                            <td>{{ solution.customer.company.company_name }}</td>
+                            <td>{{ solution.server.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
 
             <!-- Table -->
@@ -131,6 +164,7 @@
                     <th>Company Name</th>
                     <th>Company Number (CVR)</th>
                     <th>Address</th>
+                    <th>Contacts</th>
                 </thead>
                 <tbody>
                     {% for customer in customers %}
@@ -142,6 +176,14 @@
                             {{ customer.company.registered_address.postal_code }}
                             {{ customer.company.registered_address.locality }}<br>
                             {{ customer.company.registered_address.country }}<br>
+                        </td>
+                        <td>
+                            {% for contact in customer.company.contact_set.all %}
+                            {{ contact.name }}<br>
+                            <a href="mailto:{{ contact.email }}">{{ contact.email }}</a><br>
+                            {{ contact.phone }}<br>
+                            <br>
+                            {% endfor %}
                         </td>
                     </tr>
                     {% endfor %}
